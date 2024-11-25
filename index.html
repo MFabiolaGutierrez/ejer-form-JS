@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Códigos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        section {
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        pre {
+            background-color: #2e2e2e;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            overflow-x: auto;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#ejercicio1" onclick="showSection('ejercicio1')">Ejercicio 1</a>
+        <a href="#ejercicio2" onclick="showSection('ejercicio2')">Ejercicio 2</a>
+        <a href="#ejercicio3" onclick="showSection('ejercicio3')">Ejercicio 3</a>
+        <a href="#ejercicio4" onclick="showSection('ejercicio4')">Ejercicio 4</a>
+        <a href="#ejercicio5" onclick="showSection('ejercicio5')">Ejercicio 5</a>
+    </nav>
+    <div class="content">
+        <h1>Mis Códigos para Ejercicios</h1>
+
+      <!--ejercicio 1-->
+        <section id="ejercicio1">
+        <h2>Ejercicio 1: Algoritmo de Suma</h2>
+        <h1>Calculadora de Suma de Serie</h1>
+        <p>Calcula la suma parcial de la serie.</p>
+
+        <form id="seriesForm1">
+            <label for="nValue">Introduce el valor de n:</label>
+            <input type="number" id="nValue" name="nValue" min="1" required>
+            <button type="submit">Calcular</button>
+        </form>
+
+        <div id="result1">
+            <p>Valor de PI: <span id="piValue"></span></p>
+            <p>Resultado de la suma parcial: <span id="sumResult"></span></p>
+        </div>
+
+        <script>
+
+            const piSquaredOverSix = Math.PI ** 2 / 6;
+            document.getElementById("piValue").textContent = piSquaredOverSix.toFixed(15);
+
+            document.getElementById("seriesForm1").addEventListener("submit", function(event) {
+                event.preventDefault(); //ayuda a q la pagina no se recarge
+                const n = parseInt(document.getElementById("nValue").value);//convierte a entero
+                if (n < 1) {
+                    alert("Por favor, introduce un valor de n mayor o igual a 1.");
+                    return;
+                }
+                let sum = 0;
+                for (let i = 1; i <= n; i++) {
+                    sum += 1 / (i * i);
+                }
+                document.getElementById("sumResult").textContent = sum.toFixed(15); //redondeo
+            });
+        </script>
+        </section>
+
+        <!-- Ejercicio 2 -->
+        <section id="ejercicio2">
+            <h2>Ejercicio 2: Calcular serie</h2>
+        <h1>Calculadora de Serie</h1>
+        <form id="seriesForm2">
+            <label>Ingrese n:</label>
+            <input type="number" id="numTerms" min="1" required>
+            <button>Calcular</button>
+        </form>
+        <p id="result2"></p>
+
+        <script>
+            document.getElementById("seriesForm2").onsubmit = (e) => {//captura el calculo
+                e.preventDefault();//evita q se envie
+                const n = +document.getElementById("numTerms").value;
+                if (n < 1) return alert("Ingrese un número válido.");
+                let sum = 0;
+                for (let i = 1; i <= n; i++) sum += (i ** 2) / (2 ** i);
+                document.getElementById("result2").textContent = 
+                    `Suma para n=${n}: ${sum.toFixed(15)}`;
+            };
+        </script>
+        </section>
+
+        <!-- Ejercicio 3 -->
+        <section id="ejercicio3">
+            <h2>Ejercicio 3: Raíz Cúbica</h2>
+        <h1>Cálculo de Raíz Cúbica</h1>
+        <p>Este programa calcula la raíz cúbica.</p>
+
+        <form id="halleyForm">
+            <label>Introduce el valor de p :</label>
+            <input type="number" id="pValue" step="any" required>
+            <button>Calcular</button>
+        </form>
+
+        <div id="result3">
+            <p>Resultado: <span id="cubeRoot"></span></p>
+            <p>Iteraciones: <span id="iterations"></span></p>
+        </div>
+
+        <script>
+            document.getElementById("halleyForm").onsubmit = (e) => {
+                e.preventDefault();
+                const P = +document.getElementById("pValue").value;
+                if (P === 0) return (document.getElementById("cubeRoot").textContent = "0", document.getElementById("iterations").textContent = "0");
+
+                let x = P, error = 1, iter = 0; //error de estimaciones
+                while (error > 1e-5) {
+                    const next = (x * (x ** 3 + 2 * P)) / (2 * x ** 3 + P); //formula halley
+                    error = Math.abs((next - x) / next);//calcula el error
+                    x = next;
+                    iter++;
+                }
+
+                document.getElementById("cubeRoot").textContent = x.toFixed(10);
+                document.getElementById("iterations").textContent = iter;
+            };
+        </script>
+        </section>
+
+        <!-- Ejercicio 4 -->
+        <section id="ejercicio4">
+            <h2>Ejercicio 4: Exponencial</h2>
+        <h1>Cálculo sumatoria</h1>
+        <form id="taylorForm">
+            <label>Número de términos n:</label>
+            <input type="number" id="terms" min="0" required>
+            <button>Calcular</button>
+        </form>
+        <div id="result4"></div>
+    
+        <script>
+            document.getElementById("taylorForm").onsubmit = (e) => {
+                e.preventDefault();
+                const n = +document.getElementById("terms").value, x = 2;//x=2, ya que e^2
+                let sum = 0, fact = 1;
+                for (let i = 0; i <= n; i++) {
+                    if (i > 0) fact *= i;
+                    sum += Math.pow(x, i) / fact;
+                }
+                document.getElementById("result4").textContent = 
+                    `Aproximación de e^2 con ${n} términos: ${sum.toFixed(10)}`;
+            };
+        </script>
+        </section>
+
+        <!-- Ejercicio 5 -->
+        <section id="ejercicio5">
+            <form id="taylorFormSin">
+                <h2>Ejercicio 5: Serie de Taylor</h2>
+                <h2>Calcular seno con Serie de Taylor</h2>
+                <label for="angle">Ángulo en grados:</label>
+                <input type="number" id="angleSin" name="angle" required>
+                <button type="submit">Calcular</button>
+            </form>
+            <div class="result" id="resultTaylorSin"></div>
+        
+            <script>
+                document.getElementById("taylorFormSin").addEventListener("submit", (event) => {
+                    event.preventDefault();
+        
+                    const angle = parseFloat(document.getElementById("angleSin").value);
+                    const x = angle * (Math.PI / 180); //grados a radianes
+                    let sum = 0, term, n = 0;//indice
+                    do {
+                        term = Math.pow(-1, n) * Math.pow(x, 2 * n + 1) / factorial(2 * n + 1);//calcula termino de la serie
+                        sum += term;
+                        n++;
+                    } while (Math.abs(term) > 0.000001); //hasta termino pequeno
+  
+                    document.getElementById("resultTaylorSin").innerText =
+                        `Aproximación de sin(${angle}°): ${sum.toFixed(10)}`;
+                });
+
+                function factorial(num) {
+                    return num <= 1 ? 1 : num * factorial(num - 1);
+                }
+            </script>
+        </section>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        showSection('ejercicio1');
+    </script>
+</body>
+</html>
